@@ -7,6 +7,7 @@ import (
 
 // DCSServerStatusPlayer Server hook exportet player status
 type DCSServerStatusPlayer struct {
+	ID         string  `json:"id"`
 	Name       string  `json:"name"`
 	Role       string  `json:"role"`
 	OnlineTime float64 `json:"onlineTime"`
@@ -14,8 +15,8 @@ type DCSServerStatusPlayer struct {
 
 // DCSServerStatus Server hook exportet json status
 type DCSServerStatus struct {
-	Players       map[string]DCSServerStatusPlayer `json:"players"`
-	MissionsNames []string                         `json:"missionsNames"`
+	Players       []DCSServerStatusPlayer `json:"players"`
+	MissionsNames []string                `json:"missionsNames"`
 }
 
 // ReadServerStatusFile Reads the server status file exported by the server hook
