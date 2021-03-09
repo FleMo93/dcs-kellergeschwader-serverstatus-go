@@ -7,7 +7,7 @@ import (
 
 // DCSServerStatusPlayer Server hook exportet player status
 type DCSServerStatusPlayer struct {
-	ID         string  `json:"id"`
+	ID         int     `json:"id"`
 	Name       string  `json:"name"`
 	Role       string  `json:"role"`
 	OnlineTime float64 `json:"onlineTime"`
