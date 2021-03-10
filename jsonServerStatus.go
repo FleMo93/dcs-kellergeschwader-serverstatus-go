@@ -5,7 +5,32 @@ import (
 	"io/ioutil"
 )
 
-// DCSServerStatusPlayer Server hook exportet player status
+// DCSServerStatusSeason Server hook exported
+type DCSServerStatusSeason struct {
+	Temperature int `json:"temperature"`
+}
+
+// DCSServerStatusWind Server hook exported wind information
+type DCSServerStatusWind struct {
+	Speed int `json:"speed"`
+	Dir   int `json:"dir"`
+}
+
+// DCSServerStatusWinds Server hook exported winds information
+type DCSServerStatusWinds struct {
+	At8000   DCSServerStatusWind `json:"at8000"`
+	At2000   DCSServerStatusWind `json:"at2000"`
+	AtGround DCSServerStatusWind `json:"atGround"`
+}
+
+// DCSServerStatusWeather Server hook exported weather information
+type DCSServerStatusWeather struct {
+	Wind   DCSServerStatusWinds  `json:"wind"`
+	Season DCSServerStatusSeason `json:"season"`
+	Couds  int                   `json:"clouds"`
+}
+
+// DCSServerStatusPlayer Server hook exported player status
 type DCSServerStatusPlayer struct {
 	ID         int     `json:"id"`
 	Name       string  `json:"name"`
@@ -13,11 +38,13 @@ type DCSServerStatusPlayer struct {
 	OnlineTime float64 `json:"onlineTime"`
 }
 
-// DCSServerStatus Server hook exportet json status
+// DCSServerStatus Server hook exported json status
 type DCSServerStatus struct {
 	Players         []DCSServerStatusPlayer `json:"players"`
 	MissionsNames   []string                `json:"missionsNames"`
 	MissionTimeLeft int                     `json:"missionTimeLeft"`
+	Time            int                     `json:"time"`
+	Weather         DCSServerStatusWeather  `json:"weather"`
 }
 
 // ReadServerStatusFile Reads the server status file exported by the server hook
