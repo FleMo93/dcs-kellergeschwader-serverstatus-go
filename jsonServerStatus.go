@@ -27,7 +27,7 @@ type DCSServerStatusWinds struct {
 type DCSServerStatusWeather struct {
 	Wind   DCSServerStatusWinds  `json:"wind"`
 	Season DCSServerStatusSeason `json:"season"`
-	Couds  int                   `json:"clouds"`
+	Clouds int                   `json:"clouds"`
 }
 
 // DCSServerStatusPlayer Server hook exported player status
