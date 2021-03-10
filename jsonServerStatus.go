@@ -28,6 +28,7 @@ type DCSServerStatusClouds struct {
 	Density   int `json:"density"`
 	Base      int `json:"base"`
 	Thickness int `json:"thickness"`
+	Iprecptns int `json:"iprecptns"`
 }
 
 // DCSServerStatusWeather Server hook exported weather information
