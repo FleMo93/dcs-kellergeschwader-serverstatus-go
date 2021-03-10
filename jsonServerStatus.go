@@ -23,11 +23,18 @@ type DCSServerStatusWinds struct {
 	AtGround DCSServerStatusWind `json:"atGround"`
 }
 
+// DCSServerStatusClouds Server hook exported cloud information
+type DCSServerStatusClouds struct {
+	Density   int `json:"density"`
+	Base      int `json:"base"`
+	Thickness int `json:"thickness"`
+}
+
 // DCSServerStatusWeather Server hook exported weather information
 type DCSServerStatusWeather struct {
 	Wind   DCSServerStatusWinds  `json:"wind"`
 	Season DCSServerStatusSeason `json:"season"`
-	Clouds int                   `json:"clouds"`
+	Clouds DCSServerStatusClouds `json:"clouds"`
 }
 
 // DCSServerStatusPlayer Server hook exported player status
