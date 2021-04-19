@@ -3,6 +3,7 @@ package dcskellergeschwaderserverstatus
 import (
 	"encoding/json"
 	"io/ioutil"
+	"math"
 )
 
 // DCSServerStatusSeason Server hook exported
@@ -12,8 +13,8 @@ type DCSServerStatusSeason struct {
 
 // DCSServerStatusWind Server hook exported wind information
 type DCSServerStatusWind struct {
-	Speed int `json:"speed"`
-	Dir   int `json:"dir"`
+	Speed float64 `json:"speed"`
+	Dir   int     `json:"dir"`
 }
 
 // DCSServerStatusWinds Server hook exported winds information
@@ -67,6 +68,10 @@ func ReadServerStatusFile(filePath string) (DCSServerStatus, error) {
 	if err != nil {
 		return status, err
 	}
+
+	status.Weather.Wind.AtGround.Speed = float64(math.Round(status.Weather.Wind.AtGround.Speed))
+	status.Weather.Wind.At2000.Speed = float64(math.Round(status.Weather.Wind.At2000.Speed))
+	status.Weather.Wind.At8000.Speed = float64(math.Round(status.Weather.Wind.At8000.Speed))
 
 	return status, nil
 }
