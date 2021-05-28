@@ -12,7 +12,7 @@ func main() {
 	arg := os.Args
 	username := ""
 	password := ""
-	serverName := ""
+	serverNames := []string{}
 	serverStatusFile := ""
 
 	for _, ele := range arg {
@@ -21,7 +21,7 @@ func main() {
 		} else if strings.Index(ele, "--password ") == 0 {
 			password = ele[11:]
 		} else if strings.Index(ele, "--serverName ") == 0 {
-			serverName = ele[13:]
+			serverNames = append(serverNames, ele[13:])
 		} else if strings.Index(ele, "--serverStatusFile ") == 0 {
 			serverStatusFile = ele[19:]
 		}
@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	edStatus, err := m.GetServerStatus(username, password, serverName)
+	edStatus, err := m.GetServerStatus(username, password, serverNames)
 	if err != nil {
 		log.Panic(err)
 	}

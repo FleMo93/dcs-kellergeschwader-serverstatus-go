@@ -2,7 +2,6 @@ package dcskellergeschwaderserverstatus
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -45,20 +44,20 @@ type DCSServerList struct {
 	} `json:"SERVERS"`
 }
 
-// GetServerStatus Get server status from eagle dynamics server list
-func GetServerStatus(username string, password string, serverName string) (DCSServer, error) {
+// GetServerStatus Get server status from eagle dynamics server list. The output array will have the same order as the order of the server names.
+func GetServerStatus(username string, password string, serverNames []string) ([]DCSServer, error) {
 	client := &http.Client{}
 
 	url := "https://www.digitalcombatsimulator.com/en/personal/server/?ajax=y&_=" + strconv.FormatInt(time.Now().UTC().Unix(), 10)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return DCSServer{}, err
+		return []DCSServer{}, err
 	}
 
 	req.SetBasicAuth(username, password)
 	resp, err := client.Do(req)
 	if err != nil {
-		return DCSServer{}, err
+		return []DCSServer{}, err
 	}
 
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
@@ -68,13 +67,16 @@ func GetServerStatus(username string, password string, serverName string) (DCSSe
 	serverStatus := &DCSServerList{}
 	err = json.Unmarshal([]byte(serverList), serverStatus)
 	if err != nil || body == "" {
-		return DCSServer{}, err
+		return []DCSServer{}, err
 	}
 
-	for _, server := range serverStatus.MYSERVERS {
-		if server.NAME == serverName {
-			return server, nil
+	dcsServers := []DCSServer{}
+	for _, serverName := range serverNames {
+		for _, server := range serverStatus.MYSERVERS {
+			if server.NAME == serverName {
+				dcsServers = append(dcsServers, server)
+			}
 		}
 	}
-	return DCSServer{}, errors.New("Server not found")
+	return dcsServers, nil
 }
